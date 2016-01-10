@@ -1,0 +1,29 @@
+<div id="container" class="container">
+    Titolo {{message}}
+    <div class="dropdown">
+        <select ng-model="movement.tipoOperazione" class="form-control">
+            <option value="I">Entrata</option>
+            <option value="O">Uscita</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Descrizione"
+               aria-describedby="basic-addon1" ng-model="movement.descrizione">
+    </div>
+
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Data e ora operazione"
+               aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">€</span>
+        <input type="text" class="form-control" placeholder="Importo"
+               aria-describedby="basic-addon1" ng-model="movement.importo">
+    </div>
+
+    <div>
+        <button ng-click="addMovement();">Aggiungi movimento</button>
+    </div>
+</div>

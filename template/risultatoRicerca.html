@@ -1,0 +1,18 @@
+<div id="container" class="container">
+    <div class="blog-post-label">Blog Posts</div>
+    <div class="post-wrapper">
+        <div ng-repeat="ricetta in elencoRicette">
+            <div class="blog-post-outer">
+                <div class="blog-intro-text">
+                    Posted: {{ricetta.date | date:'dd/MM/yyyy @ h:mma'}}
+                </div>
+                <div class="blog-intro-text">
+                    {{ricetta.nre}}
+                </div>
+                <div class="blog-read-more">
+                    <a href="#!dettaglioRicerca/{{ricetta._id}}">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

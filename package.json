@@ -1,0 +1,11 @@
+{
+  "name": "Bank",
+  "version": "1.0.0",
+  "author" : {
+    "name" : "Leonetti Vito",
+    "email" : "veleonetti@gmail.com"
+  },
+  "dependencies" : {
+    "karma" : "*"
+  }
+}

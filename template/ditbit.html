@@ -1,0 +1,35 @@
+<div bank-menu menu-title="Ditbit"></div>
+<div id="container" class="container">
+    Titolo {{message}}
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Modifica</th>
+            <th>Tipo Operazione</th>
+            <th>Descrizione</th>
+            <th>Importo</th>
+            <th>Data Creazione</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="movimento in movements | orderBy : 'created_at' : true"
+            style="color: {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? '#ac2925' : '#3e8f3e'  }} ">
+            <td>
+                <button class="btnEditMovement">
+                    <span class="glyphicon glyphicon-pencil"></span>  Modifica
+                </button>
+            </td>
+            <td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>
+            <td>{{ movimento.descrizione }}</td>
+            <td>{{ movimento.importo }}</td>
+            <td>{{ movimento.created_at | date:'dd/MM/yyyy : hh:mma' }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <a href="#!inserisciMovimento" class="btn btn-success" >
+        <span class="glyphicon glyphicon-circle-arrow-right"> Inserisci Movimento</span>
+    </a>
+
+</div>

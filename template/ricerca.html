@@ -1,0 +1,19 @@
+<div ng-include src="'partials/menu.html'"></div>
+
+<div class="container">
+    <form ng-submit="submit()" ng-controller="RicercaCtrl as ricercaCtrl" style="margin: 50px 10px 20px 10px">
+        <div>R.: {{message}}</div>
+        <div>
+            <label>Testo
+                <input type="text" ng-model="ricercaCtrl.cMessage" required/>
+            </label>
+        </div>
+        <div>
+            <button ng-click="ricercaCtrl.changeMessage();">Cambia messaggio</button>
+        </div>
+
+        <div>
+            <button id="find" type="ricercaCtrl.submit">Search 31</button>
+        </div>
+    </form>
+</div>
