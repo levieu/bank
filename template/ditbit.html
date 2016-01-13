@@ -9,21 +9,26 @@
             <th>Tipo Operazione</th>
             <th>Descrizione</th>
             <th>Importo</th>
-            <th>Data Creazione</th>
+            <th>Data Operazione</th>
+            <th>Data Inserimento</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="movimento in movements | orderBy : 'created_at' : true"
+        <tr ng-repeat="movimento in movements | orderBy : 'dataInserimento' : true"
             style="color: {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? '#ac2925' : '#3e8f3e'  }} ">
             <td>
-                <button class="btnEditMovement">
+                <a href="#!modificaMovimento/{{movimento._id}}" class="btn btn-success" >
+                    <span class="glyphicon glyphicon-pencil"> Modifica</span>
+                </a>
+                <!--<button class="btnEditMovement">
                     <span class="glyphicon glyphicon-pencil"></span>  Modifica
-                </button>
+                </button>-->
             </td>
             <td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>
             <td>{{ movimento.descrizione }}</td>
             <td>{{ movimento.importo }}</td>
-            <td>{{ movimento.created_at | date:'dd/MM/yyyy : hh:mma' }}</td>
+            <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : hh:mma' }}</td>
+            <td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : hh:mma' }}</td>
         </tr>
         </tbody>
     </table>

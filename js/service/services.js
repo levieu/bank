@@ -6,8 +6,8 @@
 var bankServices = angular.module('bankServices', ['ngResource']);
 bankServices.factory('BankMovement', ['$resource',
     function ($resource) {
-        return $resource("http://localhost:3000/unicorns", {}, {
-            get: {method: 'GET', cache: false, isArray: true},
+        return $resource("http://localhost:3000/ditbit/movement", {}, {
+            get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
             delete: {method: 'DELETE', cache: false, isArray: false}
@@ -16,7 +16,7 @@ bankServices.factory('BankMovement', ['$resource',
 
 bankServices.factory('Login', ['$resource',
     function($resource) {
-        return $resource("http://localhost:3000/init/login", {}, {
+        return $resource("http://localhost:3000/ditbit/login", {}, {
                 login: {method: 'POST', cache: false, isArray: false}
             });
     }]);

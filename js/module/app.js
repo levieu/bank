@@ -30,6 +30,10 @@ bankApp.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'template/inserisciMovimento.html',
                 controller: 'InserisciMovimentoCtrl'
             }).
+            when('/modificaMovimento/:id',{
+                templateUrl: 'template/inserisciMovimento.html',
+                controller: 'AggiornaMovimentoCtrl'
+            }).
             when('/ricerca',{
                 templateUrl: 'template/ricerca.html',
                 controller: 'RicercaCtrl'

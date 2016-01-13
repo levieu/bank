@@ -1,4 +1,4 @@
-body{
+/*body{
     font-family: arial;
     font-size: 12pt;
     color: #2a6496;
@@ -26,7 +26,7 @@ body{
     background: #e0e0e0;
     border-radius:6px;
     -moz-border-radius:6px; /* Firefox 3.6 and earlier */
-    border: darkgreen solid 1px;
+   /* border: darkgreen solid 1px;
 }
 .blog-intro-text{
     float: left;
@@ -41,4 +41,4 @@ body{
     margin: 2% 0 0 0;
     padding: 0 0 0 0;
     text-align: center;
-}
+}*/

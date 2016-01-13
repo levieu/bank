@@ -1,5 +1,11 @@
 <div id="container" class="container">
     Titolo {{message}}
+
+    <div class="input-group">
+        <input type="hidden" class="form-control" placeholder="id"
+               aria-describedby="basic-addon1" ng-model="movement._id">
+    </div>
+
     <div class="dropdown">
         <select ng-model="movement.tipoOperazione" class="form-control">
             <option value="I">Entrata</option>
@@ -13,10 +19,20 @@
     </div>
 
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Data e ora operazione"
-               aria-describedby="basic-addon1">
+        <div id="datetimeOperazione1" class="input-append date">
+            <input type="datetime-local"
+                   placeholder="yyyy-MM-ddTHH:mm:ss" ng-model="movement.dataOperazione"/>
+            <span class="add-on">
+                <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
+            </span>
+        </div>
     </div>
-
+<!--
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Data e ora operazione"
+               aria-describedby="basic-addon1" ng-model="movement.dataOperazione">
+    </div>
+-->
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">€</span>
         <input type="text" class="form-control" placeholder="Importo"
@@ -25,5 +41,9 @@
 
     <div>
         <button ng-click="addMovement();">Aggiungi movimento</button>
+    </div>
+
+    <div>
+        <label>{{messageResponse}}</label>
     </div>
 </div>
