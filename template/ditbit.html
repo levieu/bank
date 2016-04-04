@@ -16,19 +16,19 @@
         <tbody>
         <tr ng-repeat="movimento in movements | orderBy : 'dataInserimento' : true"
             style="color: {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? '#ac2925' : '#3e8f3e'  }} ">
+            <td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>
+            <td>{{ movimento.descrizione }}</td>
+            <td>{{ movimento.importo }}</td>
+            <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : hh:mma' }}</td>
+            <td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : hh:mma' }}</td>
             <td>
-                <a href="#!modificaMovimento/{{movimento._id}}" class="btn btn-success" >
+                <a href="#!modificaMovimento/{{movimento._id}}" class="btn btn-success {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? ' red-background' : ' green-background' }}">
                     <span class="glyphicon glyphicon-pencil"> Modifica</span>
                 </a>
                 <!--<button class="btnEditMovement">
                     <span class="glyphicon glyphicon-pencil"></span>  Modifica
                 </button>-->
             </td>
-            <td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>
-            <td>{{ movimento.descrizione }}</td>
-            <td>{{ movimento.importo }}</td>
-            <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : hh:mma' }}</td>
-            <td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : hh:mma' }}</td>
         </tr>
         </tbody>
     </table>
