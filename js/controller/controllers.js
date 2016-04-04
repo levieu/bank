@@ -17,16 +17,17 @@ bankControllers.controller('MainCtrl', ['$scope', '$location', '$http', 'BankMov
         console.log("CONTINUA - MAINCTRL");
         $scope.message = 'Elenco Movimenti';
         $scope.movements = [];
-        $scope.messageResponse = '';
 
-        var paramObject = new Object();
-        //paramObject.tipo = "O";
         //add behavior
         //add method to scope
-        var req = JSON.stringify(paramObject);
 
-        console.log("getMovements");
-        BankMovement.get({data:req},
+        var objData = {};
+        objData.service = 'movement';
+        objData.method = 'find';
+        var req = JSON.stringify(objData);
+        console.log(req);
+
+        BankMovement.call({data:req},
             function success(response) {
                 console.log("Success:" + JSON.stringify(response));
                 $scope.movements = response.info;
@@ -35,7 +36,18 @@ bankControllers.controller('MainCtrl', ['$scope', '$location', '$http', 'BankMov
                 console.log("Error:" + JSON.stringify(errorResponse));
             }
         );
-
+        /*
+        console.log("getMovements");
+        BankMovement.get({},
+            function success(response) {
+                console.log("Success:" + JSON.stringify(response));
+                $scope.movements = response;
+            },
+            function error(errorResponse) {
+                console.log("Error:" + JSON.stringify(errorResponse));
+            }
+        );
+        */
         /*
         $http({
             method: 'GET',
@@ -58,18 +70,13 @@ bankControllers.controller('MainCtrl', ['$scope', '$location', '$http', 'BankMov
 
 bankControllers.controller('InserisciMovimentoCtrl',
     ['$scope', '$location', '$http', 'BankMovement', 'checkCreds', 'getToken',
-    function InserisciMovimentoCtrl($scope, $location, $http, BankMovement, checkCreds, getToken){
+    function MainCtrl($scope, $location, $http, BankMovement, checkCreds, getToken){
         if (!checkCreds()){
             $location.path('/login');
             return;
         }
         $scope.message = 'Inserisci Movimento';
         $scope.movement = new Object();
-        $scope.messageResponse = '';
-
-        $('#datetimeOperazione').datetimepicker({
-
-        });
 
         //$scope.descrizione = '';
         //$scope.importo = '';
@@ -82,29 +89,26 @@ bankControllers.controller('InserisciMovimentoCtrl',
             /*var obj = new Object();
             obj.name =  $scope.movement.descrizione ;
             obj.vampires =  $scope.movement.importo;*/
-            //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-            var req = JSON.stringify($scope.movement);
+           // $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+            var objData = {};
+            objData.service = 'movement';
+            objData.method = 'save';
+            objData.data = $scope.movement;
+
+            //var req = JSON.stringify($scope.movement);
+            var req = JSON.stringify(objData);
             console.log(req);
             var jdata = 'data='+req;
 
-            BankMovement.save({data:req},
+
+
+            BankMovement.call({data:req},
                 function success(response) {
                     console.log("Success:" + JSON.stringify(response));
                     $location.path('/');
                 },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
-                    var tempMessage = errorResponse.data.esito;
-                    if (errorResponse.data.error && errorResponse.data.error.errors){
-                        tempMessage += " - " + errorResponse.data.error.message;
-                        if (errorResponse.data.error.errors['importo'] !== undefined){
-                            tempMessage += " - " + errorResponse.data.error.errors['importo'].message;
-                        }
-                        if (errorResponse.data.error.errors['dataOperazione'] !== undefined){
-                            tempMessage += " - " + errorResponse.data.error.errors['dataOperazione'].message;
-                        }
-                    }
-                    $scope.messageResponse = tempMessage;
                 }
             );
             /*
@@ -146,83 +150,8 @@ function appendTransform(defaults, transform) {
     return defaults.concat(transform);
 }
 
-bankControllers.controller('AggiornaMovimentoCtrl',
-    ['$scope', '$location', '$http', 'BankMovement', 'checkCreds', 'getToken','$routeParams',
-        function AggiornaMovimentoCtrl($scope, $location, $http, BankMovement, checkCreds, getToken, $routeParams){
-            if (!checkCreds()){
-                $location.path('/login');
-                return;
-            }
-            $scope.message = 'Aggiorna Movimento';
-            $scope.movement = new Object();
-            $scope.messageResponse = '';
-
-            $('#datetimeOperazione').datetimepicker({
-
-            });
-
-
-            BankMovement.get({},
-                function success(response) {
-                    console.log("Success:" + JSON.stringify(response));
-                    var movements = response.info;
-                    movements.forEach(function(movm){
-                        if (movm._id === $routeParams.id){
-                            $scope.movement = movm;
-                            if ($scope.movement.dataOperazione)
-                                $scope.movement.dataOperazione = new Date($scope.movement.dataOperazione);
-                        }
-                    });
-                },
-                function error(errorResponse) {
-                    console.log("Error:" + JSON.stringify(errorResponse));
-                }
-            );
-
-
-            //$scope.descrizione = '';
-            //$scope.importo = '';
-
-            //add behavior
-            //add method to scope
-
-            $scope.addMovement = function(){
-                console.log("addMovement");
-                /*var obj = new Object();
-                 obj.name =  $scope.movement.descrizione ;
-                 obj.vampires =  $scope.movement.importo;*/
-                //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-                var req = JSON.stringify($scope.movement);
-                console.log(req);
-                var jdata = 'data='+req;
-
-                BankMovement.update({data:req},
-                    function success(response) {
-                        console.log("Success:" + JSON.stringify(response));
-                        $location.path('/');
-                    },
-                    function error(errorResponse) {
-                        console.log("Error:" + JSON.stringify(errorResponse));
-                        var tempMessage = errorResponse.data.esito;
-                        if (errorResponse.data.error && errorResponse.data.error.errors){
-                            tempMessage += " - " + errorResponse.data.error.message;
-                            if (errorResponse.data.error.errors['importo'] !== undefined){
-                                tempMessage += " - " + errorResponse.data.error.errors['importo'].message;
-                            }
-                            if (errorResponse.data.error.errors['dataOperazione'] !== undefined){
-                                tempMessage += " - " + errorResponse.data.error.errors['dataOperazione'].message;
-                            }
-                        }
-                        $scope.messageResponse = tempMessage;
-                    }
-                );
-            };
-
-        }
-    ]);
-
 bankControllers.controller('RicercaCtrl', ['$scope', '$location', '$http',
-    function RicercaCtrl($scope, $location, $http){
+    function MainCtrl($scope, $location, $http){
         $scope.message = 'Ricerca';
         //$scope.cMessage = '';
 
