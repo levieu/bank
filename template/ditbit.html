@@ -1,40 +1,51 @@
-<div bank-menu menu-title="Ditbit"></div>
+<!--<div bank-menu menu-title="Ditbit"></div>-->
 <div id="container" class="container">
     Titolo {{message}}
 
-    <table class="table table-striped">
+
+
+    <table class="table "> <!-- table-striped-->
         <thead>
         <tr>
-            <th>Modifica</th>
             <th>Tipo Operazione</th>
             <th>Descrizione</th>
             <th>Importo</th>
             <th>Data Operazione</th>
             <th>Data Inserimento</th>
+            <th/>
+            <th/>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="movimento in movements | orderBy : 'dataInserimento' : true"
-            style="color: {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? '#ac2925' : '#3e8f3e'  }} ">
+        <tr ng-repeat="movimento in movements | orderBy : 'dataOperazione' : true"
+            class="white"
+            ng-class="movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'red-background' : 'green-background'">
             <td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>
             <td>{{ movimento.descrizione }}</td>
-            <td>{{ movimento.importo }}</td>
-            <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : hh:mma' }}</td>
-            <td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : hh:mma' }}</td>
+            <td class="right-align">{{ movimento.importo | number : 2}}</td>
+            <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : HH:mm' }}</td>
+            <td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : HH:mm' }}</td>
             <td>
-                <a href="#!modificaMovimento/{{movimento._id}}" class="btn btn-success {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? ' red-background' : ' green-background' }}">
-                    <span class="glyphicon glyphicon-pencil"> Modifica</span>
+                <a href="#!modificaMovimento/{{movimento._id}}" class="btn {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? ' red-background' : ' green-background' }}">
+                    <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <!--<button class="btnEditMovement">
-                    <span class="glyphicon glyphicon-pencil"></span>  Modifica
-                </button>-->
+            </td>
+            <td>
+                <a ng-click="delMovement(movimento._id)"
+                   class="btn {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'red-background' : 'green-background' }}">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
             </td>
         </tr>
         </tbody>
     </table>
+    <span class="green bold">Totale Entrate: {{totaleEntrate | number : 2}}</span>
+    <span class="red bold">Totale Uscite: {{totaleUscite | number : 2}} </span>
+    <br/>
+    <span class="bold" ng-class="totaleEntrate - totaleUscite >= 0 ? 'green' : 'red'">Differenza: {{totaleEntrate - totaleUscite | number : 2}}</span>
     <hr>
     <a href="#!inserisciMovimento" class="btn btn-success" >
-        <span class="glyphicon glyphicon-circle-arrow-right"> Inserisci Movimento</span>
+        <span class="glyphicon glyphicon-plus"></span>
     </a>
 
 </div>
