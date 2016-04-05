@@ -91,8 +91,14 @@ bankControllers.controller('InserisciMovimentoCtrl',
             /*var obj = new Object();
             obj.name =  $scope.movement.descrizione ;
             obj.vampires =  $scope.movement.importo;*/
-            //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-            var req = JSON.stringify($scope.movement);
+           // $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+            var objData = {};
+            objData.service = 'movement';
+            objData.method = 'save';
+            objData.data = $scope.movement;
+
+            //var req = JSON.stringify($scope.movement);
+            var req = JSON.stringify(objData);
             console.log(req);
             var jdata = 'data='+req;
 
@@ -142,21 +148,8 @@ bankControllers.controller('InserisciMovimentoCtrl',
     }
 ]);
 
-function doTransform(value){
-    console.log('doTransform -->' + value);
-}
-
-function appendTransform(defaults, transform) {
-
-    // We can't guarantee that the default transformation is an array
-    defaults = angular.isArray(defaults) ? defaults : [defaults];
-
-    // Append the new transformation to the defaults
-    return defaults.concat(transform);
-}
-
 bankControllers.controller('AggiornaMovimentoCtrl',
-    ['$scope', '$location', '$http', 'BankMovement', 'checkCreds', 'getToken','$routeParams',
+    ['$scope', '$location', '$http', 'BankMovement', 'checkCreds', 'getToken', '$routeParams',
         function AggiornaMovimentoCtrl($scope, $location, $http, BankMovement, checkCreds, getToken, $routeParams){
             if (!checkCreds()){
                 $location.path('/login');
@@ -166,22 +159,20 @@ bankControllers.controller('AggiornaMovimentoCtrl',
             $scope.movement = new Object();
             $scope.messageResponse = '';
 
-            $('#datetimeOperazione').datetimepicker({
+            var request = {};
+            request._id = $routeParams.id;
 
-            });
+            var objData = {};
+            objData.service = 'movement';
+            objData.method = 'find';
+            objData.data = request;
+            var req = JSON.stringify(objData);
+            console.log(req);
 
-
-            BankMovement.get({},
+            BankMovement.call({data:req},
                 function success(response) {
                     console.log("Success:" + JSON.stringify(response));
-                    var movements = response.info;
-                    movements.forEach(function(movm){
-                        if (movm._id === $routeParams.id){
-                            $scope.movement = movm;
-                            if ($scope.movement.dataOperazione)
-                                $scope.movement.dataOperazione = new Date($scope.movement.dataOperazione);
-                        }
-                    });
+                    $scope.movement = response.info[0];
                 },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
@@ -200,12 +191,20 @@ bankControllers.controller('AggiornaMovimentoCtrl',
                 /*var obj = new Object();
                  obj.name =  $scope.movement.descrizione ;
                  obj.vampires =  $scope.movement.importo;*/
-                //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-                var req = JSON.stringify($scope.movement);
+                // $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+                var objData = {};
+                objData.service = 'movement';
+                objData.method = 'update';
+                objData.data = $scope.movement;
+
+                //var req = JSON.stringify($scope.movement);
+                var req = JSON.stringify(objData);
                 console.log(req);
                 var jdata = 'data='+req;
 
-                BankMovement.update({data:req},
+
+
+                BankMovement.call({data:req},
                     function success(response) {
                         console.log("Success:" + JSON.stringify(response));
                         $location.path('/');

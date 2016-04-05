@@ -42,3 +42,13 @@
     padding: 0 0 0 0;
     text-align: center;
 }*/
+
+.red-background{
+    background-color: #ac2925;
+    border-color: #ac2925;
+}
+
+.green-background{
+    background-color: #3e8f3e;
+    border-color: #3e8f3e;
+}
