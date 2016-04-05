@@ -163,6 +163,13 @@ bankControllers.controller('InserisciMovimentoCtrl',
         $scope.movement = new Object();
         $scope.messageResponse = '';
 
+        $scope.tipiOperazione = {
+            elencoOpzioni: [
+                {id: 'I', name: 'Entrata'},
+                {id: 'O', name: 'Uscita'}
+            ],
+        };
+
         /*$('#datetimeOperazione').datetimepicker({
 
         });*/
@@ -245,6 +252,13 @@ bankControllers.controller('AggiornaMovimentoCtrl',
             $scope.message = 'Aggiorna Movimento';
             $scope.movement = new Object();
             $scope.messageResponse = '';
+
+            $scope.tipiOperazione = {
+                elencoOpzioni: [
+                    {id: 'I', name: 'Entrata'},
+                    {id: 'O', name: 'Uscita'}
+                ],
+            };
 
             var request = {};
             request._id = $routeParams.id;

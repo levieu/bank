@@ -22,7 +22,7 @@
             ng-class="movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'red-background' : 'green-background'">
             <td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>
             <td>{{ movimento.descrizione }}</td>
-            <td class="right-align">{{ movimento.importo | number : 2}}</td>
+            <td class="right-align">{{ movimento.importo | currency : '&#8364; ' : 2}}</td>
             <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : HH:mm' }}</td>
             <td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : HH:mm' }}</td>
             <td>
@@ -39,10 +39,10 @@
         </tr>
         </tbody>
     </table>
-    <span class="green bold">Totale Entrate: {{totaleEntrate | number : 2}}</span>
-    <span class="red bold">Totale Uscite: {{totaleUscite | number : 2}} </span>
+    <span class="green bold">Totale Entrate: {{totaleEntrate | currency : ' &#8364;' : 2}}</span>
+    <span class="red bold">Totale Uscite: {{totaleUscite | currency : ' &#8364;' : 2}} </span>
     <br/>
-    <span class="bold" ng-class="totaleEntrate - totaleUscite >= 0 ? 'green' : 'red'">Differenza: {{totaleEntrate - totaleUscite | number : 2}}</span>
+    <span class="bold" ng-class="totaleEntrate - totaleUscite >= 0 ? 'green' : 'red'">Differenza: {{totaleEntrate - totaleUscite | currency : ' &#8364;' : 2}}</span>
     <hr>
     <a href="#!inserisciMovimento" class="btn btn-success" >
         <span class="glyphicon glyphicon-plus"></span>

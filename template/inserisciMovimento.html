@@ -8,8 +8,11 @@
 
     <div class="dropdown">
         <select ng-model="movement.tipoOperazione" class="form-control">
-            <option value="I">Entrata</option>
-            <option value="O">Uscita</option>
+            <option ng-repeat="option in tipiOperazione.elencoOpzioni"
+                    ng-selected="option.id === movement.tipoOperazione"
+                    value="{{option.id}}">{{option.name}}</option>
+            <!--<option value="I">Entrata</option>
+            <option value="O">Uscita</option>-->
         </select>
     </div>
 
@@ -34,7 +37,7 @@
     </div>
 -->
     <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">€</span>
+        <span class="input-group-addon" id="basic-addon1">&#8364;</span>
         <input type="text" class="form-control" placeholder="Importo"
                aria-describedby="basic-addon1" ng-model="movement.importo">
     </div>
