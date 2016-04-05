@@ -19,8 +19,8 @@ var bankApp = angular.module('bankApp', [
     'bankDirectives'
 ]);
 
-bankApp.config(['$routeProvider', '$locationProvider',
-    function($routeProvider, $locationProvider){
+bankApp.config(['$routeProvider', '$locationProvider', '$httpProvider',
+    function($routeProvider, $locationProvider, $httpProvider){
         $routeProvider.
             when('/',{
                 templateUrl: 'template/ditbit.html',
@@ -64,6 +64,8 @@ bankApp.config(['$routeProvider', '$locationProvider',
          /someAppName/blogPost/5 used by HTML5 mode.
          */
         $locationProvider.html5Mode(false).hashPrefix('!');
+
+        $httpProvider.interceptors.push('authInterceptor');
     }
 ]);
 

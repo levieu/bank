@@ -7,32 +7,41 @@
 
 var bankControllers = angular.module('bankControllers', []);
 
-bankControllers.controller('MainCtrl', ['$scope', '$location', '$http', 'BankMovement', 'checkCreds',
-    function MainCtrl($scope, $location, $http, BankMovement, checkCreds){
-        if (!checkCreds()){
+bankControllers.controller('MainCtrl', ['$scope', '$location', '$http', 'BankMovement', 'checkCreds', '$window',
+    function MainCtrl($scope, $location, $http, BankMovement, checkCreds, $window){
+        /*if (!checkCreds()){
             $location.path('/login');
             return;
-        }
+        }*/
 
         console.log("CONTINUA - MAINCTRL");
         $scope.message = 'Elenco Movimenti';
         $scope.movements = [];
         $scope.messageResponse = '';
 
-        var paramObject = new Object();
+        var paramObject = {};
         //paramObject.tipo = "O";
         //add behavior
         //add method to scope
-        var req = JSON.stringify(paramObject);
+        var objectRequest = {};
+        objectRequest.service = 'movement';
+        objectRequest.method = 'find';
+        objectRequest.data = paramObject;
 
+        var req = JSON.stringify(objectRequest);
+
+        //config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+        //$http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.sessionStorage.token;
         console.log("getMovements");
-        BankMovement.get({data:req},
+        BankMovement.call({data:req},
             function success(response) {
                 console.log("Success:" + JSON.stringify(response));
                 $scope.movements = response.info;
             },
             function error(errorResponse) {
                 console.log("Error:" + JSON.stringify(errorResponse));
+                $location.path('/login');
+                return;
             }
         );
 
@@ -87,7 +96,7 @@ bankControllers.controller('InserisciMovimentoCtrl',
             console.log(req);
             var jdata = 'data='+req;
 
-            BankMovement.save({data:req},
+            BankMovement.call({data:req},
                 function success(response) {
                     console.log("Success:" + JSON.stringify(response));
                     $location.path('/');
@@ -284,8 +293,8 @@ bankControllers.controller('DettaglioRicercaCtrl', ['$scope', '$location', '$htt
 ]);
 
 bankControllers.controller('LoginCtrl',
-    ['$scope', '$location', 'Login', 'setCreds',
-        function LoginCtrl($scope, $location, Login, setCreds) {
+    ['$scope', '$location', 'Login', 'setCreds', '$window',
+        function LoginCtrl($scope, $location, Login, setCreds, $window) {
             console.log("INIT - LOGINCTRL");
             $scope.submit = function(){
                 $scope.sub = true;
@@ -297,15 +306,18 @@ bankControllers.controller('LoginCtrl',
                 Login.login({}, {data:JSON.stringify(postData)},
                     function success(response) {
                         console.log("Success:" + JSON.stringify(response));
-                        if(response.authenticated){
+                        $window.sessionStorage.token = response.token;
+                        $location.path('/');
+                        /*if(response.authenticated){
                             setCreds($scope.username, $scope.password);
                             $location.path('/');
                         }else{
                             $scope.error = "Login Failed";
-                        }
+                        }*/
                     },
                     function error(errorResponse) {
                         console.log("Error:" + JSON.stringify(errorResponse));
+                        delete $window.sessionStorage.token;
                     }
                 );
             };
