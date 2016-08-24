@@ -2,50 +2,93 @@
 <div id="container" class="container">
     Titolo {{message}}
 
-
-
-    <table class="table "> <!-- table-striped-->
-        <thead>
-        <tr>
-            <th>Tipo Operazione</th>
-            <th>Descrizione</th>
-            <th>Importo</th>
-            <th>Data Operazione</th>
-            <th>Data Inserimento</th>
-            <th/>
-            <th/>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="movimento in movements | orderBy : 'dataOperazione' : true"
-            class="white"
-            ng-class="movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'red-background' : 'green-background'">
-            <td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>
-            <td>{{ movimento.descrizione }}</td>
-            <td class="right-align">{{ movimento.importo | currency : '&#8364; ' : 2}}</td>
-            <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : HH:mm' }}</td>
-            <td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : HH:mm' }}</td>
-            <td>
-                <a href="#!modificaMovimento/{{movimento._id}}" class="btn {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? ' red-background' : ' green-background' }}">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a>
-            </td>
-            <td>
-                <a ng-click="delMovement(movimento._id)"
-                   class="btn {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'red-background' : 'green-background' }}">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="descFltr" class="col-sm-1 control-label">Descrizione</label>
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" id="descFltr"
+                       ng-model="filtro.descrizione" placeholder="Descrizione"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dalFltr" class="col-sm-1 control-label">Dal</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="filtro.dataDal"
+                           is-open="popupDataDal.opened" datepicker-options="dateOptions" close-text="Close"
+                           alt-input-formats="altInputFormats" placeholder="Dal" id="dalFltr"/>
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openPopUpDataDal()"></button>
+                </div>
+                <label for="alFltr" class="col-sm-1 control-label">Al</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="filtro.dataAl"
+                           is-open="popupDataAl.opened" datepicker-options="dateOptions" close-text="Close"
+                           alt-input-formats="altInputFormats" placeholder="Al" id="alFltr"/>
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-default glyphicon glyphicon-calendar" ng-click="openPopUpDataAl()"></button>
+                </div>
+            </div>
+            <div class="form-group right-align">
+                <input type="button" ng-click="reset()" value="Reset" class="btn btn-danger"/>
+                <input type="submit" ng-click="ricerca()" value="Ricerca" class="btn btn-success"/>
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover"> <!-- table-striped-->
+            <thead>
+            <tr>
+                <!--<th>Tipo Operazione</th>-->
+                <th>Verificato</th>
+                <th>Categoria</th>
+                <th>Descrizione</th>
+                <th>Importo</th>
+                <th>Data Operazione</th>
+                <!--<th>Data Inserimento</th>-->
+                <th/>
+                <th/>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="movimento in movements | orderBy : 'dataOperazione' : true"
+                class="black bold">
+                <!--ng-class="movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'red-background' : 'green-background'">-->
+                <!--<td>{{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'Uscita': 'Entrata'  }}</td>-->
+                <td><input type="checkbox" ng-click="verificaMovement(this)" ng-model="movimento.verificato"></td>
+                <td>{{findCategoria(movimento.categoria)}}</td>
+                <td>{{ movimento.descrizione }}</td>
+                <td class="right-align">{{ movimento.importo | currency : '&#8364; ' : 2}}</td>
+                <td>{{ movimento.dataOperazione | date:'dd/MM/yyyy : HH:mm' }}</td>
+                <!--<td>{{ movimento.dataInserimento | date:'dd/MM/yyyy : HH:mm' }}</td>-->
+                <td>
+                    <a href="#!modificaMovimento/{{movimento._id}}"
+                       class="btn btn-primary btn-sm glyphicon glyphicon-pencil">
+                        <!--class="btn btn-default {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? ' red-background' : ' green-background' }}">-->
+                        <!--<span class="glyphicon glyphicon-pencil"></span>-->
+                    </a>
+                </td>
+                <td>
+                    <a ng-click="delMovement(movimento._id)"
+                       class="btn btn-danger btn-sm glyphicon glyphicon-remove">
+                       <!-- class="btn btn-primary {{ movimento.tipoOperazione && movimento.tipoOperazione == 'O' ? 'red-background' : 'green-background' }}">-->
+                        <!--<span class="glyphicon glyphicon-remove"></span>-->
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <span class="green bold">Totale Entrate: {{totaleEntrate | currency : ' &#8364;' : 2}}</span>
     <span class="red bold">Totale Uscite: {{totaleUscite | currency : ' &#8364;' : 2}} </span>
     <br/>
-    <span class="bold" ng-class="totaleEntrate - totaleUscite >= 0 ? 'green' : 'red'">Differenza: {{totaleEntrate - totaleUscite | currency : ' &#8364;' : 2}}</span>
+    <span class="bold" ng-class="totale >= 0 ? 'green' : 'red'">Differenza: {{totale | currency : ' &#8364;' : 2}}</span>
+    <br/>
+    <span class="bold" ng-class="saldo >= 0 ? 'green' : 'red'">Saldo: {{saldo | currency : ' &#8364;' : 2}}</span>
     <hr>
     <a href="#!inserisciMovimento" class="btn btn-success" >
         <span class="glyphicon glyphicon-plus"></span>
     </a>
-
 </div>

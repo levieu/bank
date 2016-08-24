@@ -4,7 +4,7 @@
 'use strict';
 /* Services */
 var bankServices = angular.module('bankServices', ['ngResource']);
-bankServices.factory('BankMovement', ['$resource',
+/*bankServices.factory('BankMovement', ['$resource',
     function ($resource) {
         return $resource("http://localhost:3000/ditbit/services", {}, {
             get: {method: 'GET', cache: false, isArray: false},
@@ -14,6 +14,29 @@ bankServices.factory('BankMovement', ['$resource',
             call: {method: 'POST', cache: false, isArray: false},
         });
     }]);
+*/
+
+bankServices.factory('BankMovement', ['$resource',
+    function ($resource) {
+        return $resource("http://localhost:3000/ditbit/movement", {}, {
+            get: {method: 'GET', cache: false, isArray: false},
+            find: {method: 'POST', cache: false, isArray: false, url: "http://localhost:3000/ditbit/movement/query"},
+            save: {method: 'POST', cache: false, isArray: false},
+            update: {method: 'PUT', cache: false, isArray: false},
+            delete: {method: 'DELETE', cache: false, isArray: false},
+            calcolaTotale: {method: 'POST', cache: false, isArray: false, url: "http://localhost:3000/ditbit/movement/calcolaTotale"},
+            calcolaSaldo: {method: 'GET', cache: false, isArray: false, url: "http://localhost:3000/ditbit/movement/calcolaSaldo"}
+        });
+    }
+]);
+
+bankServices.factory('BankCategory', ['$resource',
+    function ($resource) {
+        return $resource("http://localhost:3000/ditbit/category", {}, {
+            get: {method: 'GET', cache: false, isArray: false}
+        });
+    }
+]);
 
 bankServices.factory('Login', ['$resource',
     function($resource) {

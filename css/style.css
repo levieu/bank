@@ -42,9 +42,16 @@
     padding: 0 0 0 0;
     text-align: center;
 }*/
-
+/*
 html body{
     background-color: #bebebe;
+}
+*/
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .red-background{
@@ -89,10 +96,18 @@ html body{
     color: #FFFFFF;
 }
 
+.black{
+    color: #373737;
+}
+
 .bold{
     font-weight: bold;
 }
 
 .right-align{
     text-align: right;
+}
+
+.center-align{
+    text-align: center;
 }

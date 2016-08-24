@@ -16,11 +16,12 @@ var bankApp = angular.module('bankApp', [
     'bankControllers',
     'bankServices',
     'bankBusinessServices',
-    'bankDirectives'
+    'bankDirectives',
+    'ui.bootstrap'
 ]);
 
-bankApp.config(['$routeProvider', '$locationProvider', '$httpProvider',
-    function($routeProvider, $locationProvider, $httpProvider){
+bankApp.config(['$routeProvider', '$locationProvider', '$httpProvider', '$provide',
+    function($routeProvider, $locationProvider, $httpProvider, $provide){
         $routeProvider.
             when('/',{
                 templateUrl: 'template/ditbit.html',
@@ -57,7 +58,8 @@ bankApp.config(['$routeProvider', '$locationProvider', '$httpProvider',
             when('/logout',{
                 templateUrl: 'template/login.html',
                 controller: 'LogoutCtrl'
-            });
+            }
+        );
         /* use locationProvider service, the next line turns off HTML5Mode
          and turns on the hashbang mode of AngularJs. The urls like
          /someAppName/#!/blogPost/5 use the #! known as the hashbang instead of urls like
@@ -66,6 +68,14 @@ bankApp.config(['$routeProvider', '$locationProvider', '$httpProvider',
         $locationProvider.html5Mode(false).hashPrefix('!');
 
         $httpProvider.interceptors.push('authInterceptor');
+
+        $provide.decorator('$locale', ['$delegate', function($delegate) {
+            if ($delegate.id == 'en-us') {
+                $delegate.NUMBER_FORMATS.PATTERNS[1].negPre = '-\u00A4';
+                $delegate.NUMBER_FORMATS.PATTERNS[1].negSuf = '';
+            }
+            return $delegate;
+        }]);
     }
 ]);
 

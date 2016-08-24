@@ -6,29 +6,35 @@
                aria-describedby="basic-addon1" ng-model="movement._id">
     </div>
 
+    <!--
     <div class="dropdown">
         <select ng-model="movement.tipoOperazione" class="form-control">
             <option ng-repeat="option in tipiOperazione.elencoOpzioni"
                     ng-selected="option.id === movement.tipoOperazione"
                     value="{{option.id}}">{{option.name}}</option>
-            <!--<option value="I">Entrata</option>
-            <option value="O">Uscita</option>-->
         </select>
     </div>
-
+    -->
     <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-edit"></span></span>
         <input type="text" class="form-control" placeholder="Descrizione"
                aria-describedby="basic-addon1" ng-model="movement.descrizione">
     </div>
 
     <div class="input-group">
-        <div id="datetimeOperazione1" class="input-append date">
+        <!--<div id="datetimeOperazione1" class="input-append date">
             <input type="datetime-local"
                    placeholder="yyyy-MM-ddTHH:mm:ss" ng-model="movement.dataOperazione"/>
             <span class="add-on">
                 <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
             </span>
-        </div>
+        </div>-->
+        <input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy HH:mm" ng-model="movement.dataOperazione"
+               is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
+               alt-input-formats="altInputFormats"/>
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
     </div>
 <!--
     <div class="input-group">
@@ -37,13 +43,42 @@
     </div>
 -->
     <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">&#8364;</span>
+        <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-euro"></span></span>
         <input type="text" class="form-control" placeholder="Importo"
                aria-describedby="basic-addon1" ng-model="movement.importo">
     </div>
 
+    <!--
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon3"><span class="glyphicon glyphicon-th"></span></span>
+        <input type="text" class="form-control" placeholder="Categoria"
+               aria-describedby="basic-addon1" ng-model="movement.categoria">
+    </div>
+    -->
+    <div class="dropdown">
+        <select ng-model="movement.categoria" class="form-control">
+            <option ng-repeat="option in categorie"
+                    ng-selected="option.codice === movement.categoria"
+                    value="{{option.codice}}">{{option.nome}}</option>
+        </select>
+    </div>
+
+    <div class="dropdown">
+        <select ng-model="movement.tipoCarta" class="form-control">
+            <option ng-repeat="option in tipiCarte.elencoOpzioni"
+                    ng-selected="option.id === movement.tipoCarta"
+                    value="{{option.id}}">{{option.name}}</option>
+        </select>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="movement.verificato">Verificato
+        </label>
+    </div>
+
     <div>
-        <button ng-click="addModMovement()">{{message}}</button>
+        <button ng-click="addModMovement()" class="btn btn-success">{{message}}</button>
     </div>
 
     <div>
